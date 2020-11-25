@@ -8,8 +8,12 @@ import java.util.ArrayList;
 
 public class Diccionario {
 
-    private static Connection connection = ConnectionDB.getConnection();
+    private static Connection connection;
     public static final String[] lexicos = {"Adverbio, Adjetivo, Sustantivo, Verbo"};
+
+    public static void setConnection(Connection connection) {
+        Diccionario.connection = connection;
+    }
 
     public static ArrayList<String> conseguirDefiniciones(String palabra) {
         ArrayList<String> definiciones = new ArrayList<>();
