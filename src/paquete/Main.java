@@ -1,11 +1,13 @@
 package paquete;
 
-public class Main {
-    public static void main (String[] args) throws Exception {
-        // Es importante que esta línea sea lo primero que se ejecute!
-        Diccionario.setConnection(ConnectionDB.getConnection());
+import java.sql.Connection;
 
-        Palabra tiempo = new Palabra("tiempo");
-        System.out.println(tiempo);
+public class Main {
+    public static void main (String[] args) {
+        Connection connection = ConnectionDB.getConnection();
+        if (connection != null) {
+            Diccionario.setConnection(connection);
+            new GUI();
+        }
     }
 }
