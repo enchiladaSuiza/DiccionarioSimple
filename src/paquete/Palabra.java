@@ -3,10 +3,10 @@ package paquete;
 import java.util.ArrayList;
 
 public class Palabra {
-    private String palabra;
-    private String lexico;
-    private ArrayList<String> definiciones;
-    private ArrayList<String> ejemplos;
+    private final String palabra;
+    private final String lexico;
+    private final ArrayList<String> definiciones;
+    private final ArrayList<String> ejemplos;
 
     Palabra(String palabra) {
         this.palabra = palabra;
@@ -16,14 +16,30 @@ public class Palabra {
     }
 
     public String toString() {
-        String cadena = palabra + " (" + lexico + ")\n";
+        StringBuilder cadena = new StringBuilder(palabra + " (" + lexico + ")\n");
         for (String definicion : definiciones) {
-            cadena += definicion + "\n";
+            cadena.append(definicion).append("\n");
         }
         for (String ejemplo : ejemplos) {
-            cadena += ejemplo + "\n";
+            cadena.append(ejemplo).append("\n");
         }
 
-        return cadena;
+        return cadena.toString();
+    }
+
+    public String getPalabra() {
+        return palabra;
+    }
+
+    public String getLexico() {
+        return lexico;
+    }
+
+    public String[] getDefiniciones() {
+        return definiciones.toArray(new String[definiciones.size()]);
+    }
+
+    public String[] getEjemplos() {
+        return ejemplos.toArray(new String[ejemplos.size()]);
     }
 }

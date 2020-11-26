@@ -6,12 +6,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.util.Scanner;
 
 public class ConnectionDB {
 
     static File datosUsuario = new File("datos.txt");
-    static Scanner scanner = new Scanner(System.in);
     static String driver = "com.mysql.cj.jdbc.Driver";
     static String url = "jdbc:mysql://localhost:3306/diccionario?serverTimezone=UTC";
     static String usuario;
@@ -21,8 +19,7 @@ public class ConnectionDB {
         ingresarDatos();
         try {
             Class.forName(driver);
-            Connection connection = DriverManager.getConnection(url, usuario, password);
-            return connection;
+            return DriverManager.getConnection(url, usuario, password);
         }
         catch (Exception e) {
             System.out.println(e.getMessage());

@@ -1,7 +1,6 @@
 package paquete;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class GUI extends JFrame {
 
@@ -10,14 +9,16 @@ public class GUI extends JFrame {
 
     GUI() {
         super("Diccionario");
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setSize(600, 400);
-        setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.setSize(600, 400);
+        this.setLocationRelativeTo(null);
+
+        busqueda = new Busqueda();
 
         tabbedPane = new JTabbedPane();
         tabbedPane.add("Búsqueda", busqueda);
         this.add(tabbedPane);
-        setVisible(true);
+        this.setVisible(true);
     }
 
     public static String[] popupDatos() {

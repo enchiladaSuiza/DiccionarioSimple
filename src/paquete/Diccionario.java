@@ -6,10 +6,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class Diccionario {
+public abstract class Diccionario {
 
     private static Connection connection;
-    public static final String[] lexicos = {"Adverbio, Adjetivo, Sustantivo, Verbo"};
+    public static final String[] lexicos = {"Adverbio", "Adjetivo", "Sustantivo", "Verbo"};
 
     public static void setConnection(Connection connection) {
         Diccionario.connection = connection;
@@ -83,16 +83,16 @@ public class Diccionario {
         String lexico = lexicos[0];
         try {
             Statement declaracion = connection.createStatement();
-            String consulta = "SELECT lexico \n" +
-                    "FROM palabras p\n" +
-                    "JOIN lexicos l ON p.idlexico = l.idlexico\n" +
-                    "WHERE p.palabra = '" + palabra + "'";
+            String consulta = "SELECT idlexico\n" +
+                    "FROM palabras\n" +
+                    "WHERE palabra = '" + palabra + "'";
             ResultSet resultados = declaracion.executeQuery(consulta);
 
             if (!resultados.next()) {
                 return null;
             }
-            lexico = resultados.getString("lexico");
+            int indice = resultados.getInt("idlexico");
+            lexico = lexicos[indice - 1]; // En la base de datos los lexicos empiezan desde 1
             resultados.close();
             declaracion.close();
         }
