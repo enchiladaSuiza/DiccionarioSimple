@@ -12,6 +12,7 @@ public class GUI extends JFrame {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setSize(600, 400);
         this.setLocationRelativeTo(null);
+        this.setResizable(false);
 
         busqueda = new Busqueda();
 
@@ -29,7 +30,7 @@ public class GUI extends JFrame {
 
     public static void popupError() {
         JOptionPane.showMessageDialog(null,
-                "El usuario o contraseña son incorrectos. Vuelva a intentar.",
+                "No fue posible conectar con la base de datos.",
                 "Error ingresando a la base de datos",
                 JOptionPane.WARNING_MESSAGE);
     }

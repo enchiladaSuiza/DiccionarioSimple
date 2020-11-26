@@ -15,6 +15,10 @@ public class Palabra {
         ejemplos = Diccionario.conseguirEjemplos(palabra);
     }
 
+    public boolean estaEnLaBase() {
+        return lexico != null || definiciones != null || ejemplos != null;
+    }
+
     public String toString() {
         StringBuilder cadena = new StringBuilder(palabra + " (" + lexico + ")\n");
         for (String definicion : definiciones) {
