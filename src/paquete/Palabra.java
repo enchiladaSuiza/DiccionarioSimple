@@ -40,10 +40,10 @@ public class Palabra {
     }
 
     public String[] getDefiniciones() {
-        return definiciones.toArray(new String[definiciones.size()]);
+        return definiciones.toArray(new String[0]);
     }
 
     public String[] getEjemplos() {
-        return ejemplos.toArray(new String[ejemplos.size()]);
+        return ejemplos.toArray(new String[0]);
     }
 }

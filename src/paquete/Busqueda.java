@@ -13,24 +13,29 @@ public class Busqueda extends JPanel implements ActionListener {
     private JTextArea labelEjemplos;
 
     Busqueda() {
-        this.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
-        this.setPreferredSize(new Dimension(600, 400));
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        // this.setPreferredSize(new Dimension(550, 400));
+        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         textField = new JTextField();
         textField.setPreferredSize(new Dimension(160, 24));
+        textField.setMaximumSize(new Dimension(160, 24));
         textField.addActionListener(this);
+        textField.setAlignmentX(JTextField.LEFT_ALIGNMENT);
 
         labelPalabra = new JLabel();
-        labelPalabra.setHorizontalAlignment(JLabel.LEFT);
-        labelPalabra.setVerticalAlignment(JLabel.CENTER);
-        labelPalabra.setPreferredSize(new Dimension(500, 20));
+        labelPalabra.setHorizontalTextPosition(JLabel.CENTER);
+        labelPalabra.setVerticalTextPosition(JLabel.CENTER);
+        labelPalabra.setBackground(Color.cyan);
+        // labelPalabra.setPreferredSize(new Dimension(500, 18));
         Font fuentePalabra = new Font("Arial", Font.BOLD, 14);
         labelPalabra.setFont(fuentePalabra);
 
         labelLexico = new JLabel();
-        labelLexico.setHorizontalAlignment(JLabel.LEFT);
-        labelLexico.setVerticalAlignment(JLabel.CENTER);
-        labelLexico.setPreferredSize(new Dimension(500, 20));
+        labelLexico.setHorizontalTextPosition(JLabel.LEFT);
+        labelLexico.setVerticalTextPosition(JLabel.CENTER);
+        labelLexico.setBackground(Color.cyan);
+        // labelLexico.setPreferredSize(new Dimension(500, 18));
         Font fuenteEjemplo = new Font("Arial", Font.ITALIC, 14);
         labelLexico.setFont(fuenteEjemplo);
 
@@ -39,22 +44,28 @@ public class Busqueda extends JPanel implements ActionListener {
         labelDefiniciones.setBackground(null);
         labelDefiniciones.setLineWrap(true);
         labelDefiniciones.setWrapStyleWord(true);
-        labelDefiniciones.setPreferredSize(new Dimension(500, 100));
+        // labelDefiniciones.setPreferredSize(new Dimension(500, 90));
         Font fuenteDefinicion = new Font("Arial", Font.PLAIN, 14);
         labelDefiniciones.setFont(fuenteDefinicion);
+        labelDefiniciones.setAlignmentX(JTextArea.LEFT_ALIGNMENT);
 
         labelEjemplos = new JTextArea();
         labelEjemplos.setEditable(false);
         labelEjemplos.setBackground(null);
         labelEjemplos.setLineWrap(true);
         labelEjemplos.setWrapStyleWord(true);
-        labelEjemplos.setPreferredSize(new Dimension(500, 100));
+        // labelEjemplos.setPreferredSize(new Dimension(500, 90));
         labelEjemplos.setFont(new Font("Arial", Font.ITALIC, 14));
         labelEjemplos.setFont(fuenteEjemplo);
+        labelEjemplos.setLayout(new BorderLayout());
+        labelEjemplos.setAlignmentX(JTextArea.LEFT_ALIGNMENT);
 
         this.add(textField);
+        this.add(Box.createRigidArea(new Dimension(0, 10)));
         this.add(labelPalabra);
+        this.add(Box.createRigidArea(new Dimension(0, 15)));
         this.add(labelLexico);
+        this.add(Box.createRigidArea(new Dimension(0, 15)));
         this.add(labelDefiniciones);
         this.add(labelEjemplos);
     }
@@ -78,25 +89,25 @@ public class Busqueda extends JPanel implements ActionListener {
         labelPalabra.setText(palabra.getPalabra());
         labelLexico.setText(palabra.getLexico());
 
-        String definicionesTexto = "";
+        StringBuilder definicionesTexto = new StringBuilder();
         for (int i = 0; i < palabra.getDefiniciones().length; i++) {
             String def = palabra.getDefiniciones()[i];
-            definicionesTexto += (i + 1) + ". " + def;
+            definicionesTexto.append(i + 1).append(". ").append(def);
             if (i < palabra.getDefiniciones().length - 1) {
-                definicionesTexto += "\n\n";
+                definicionesTexto.append("\n\n");
             }
         }
-        labelDefiniciones.setText(definicionesTexto);
+        labelDefiniciones.setText(definicionesTexto.toString());
 
-        String ejemploTexto = "";
+        StringBuilder ejemploTexto = new StringBuilder();
         for (int i = 0; i < palabra.getEjemplos().length; i++) {
             String eg = palabra.getEjemplos()[i];
-            ejemploTexto += eg;
+            ejemploTexto.append(eg);
             if (i < palabra.getEjemplos().length - 1) {
-                ejemploTexto += "\n\n";
+                ejemploTexto.append("\n\n");
             }
         }
-        labelEjemplos.setText(ejemploTexto);
+        labelEjemplos.setText(ejemploTexto.toString());
         revalidate();
         repaint();
     }

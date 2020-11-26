@@ -13,7 +13,7 @@ public class GUI extends JFrame {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setSize(600, 400);
         this.setLocationRelativeTo(null);
-        this.setResizable(false);
+        //this.setResizable(false);
 
         busqueda = new Busqueda();
         listaDePalabras = new ListaDePalabras();
