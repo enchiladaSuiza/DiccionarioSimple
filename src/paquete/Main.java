@@ -2,12 +2,19 @@ package paquete;
 
 import java.sql.Connection;
 
-public class Main {
+public abstract class Main {
+
+    private static GUI gui;
+
     public static void main (String[] args) {
         Connection connection = ConnectionDB.getConnection();
         if (connection != null) {
             Diccionario.setConnection(connection);
-            new GUI();
+            gui = new GUI();
         }
+    }
+
+    public static GUI getGUI() {
+        return gui;
     }
 }

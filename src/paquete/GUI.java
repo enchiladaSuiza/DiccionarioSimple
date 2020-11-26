@@ -4,8 +4,9 @@ import javax.swing.*;
 
 public class GUI extends JFrame {
 
-    Busqueda busqueda;
-    JTabbedPane tabbedPane;
+    private Busqueda busqueda;
+    private ListaDePalabras listaDePalabras;
+    private JTabbedPane tabbedPane;
 
     GUI() {
         super("Diccionario");
@@ -15,9 +16,11 @@ public class GUI extends JFrame {
         this.setResizable(false);
 
         busqueda = new Busqueda();
+        listaDePalabras = new ListaDePalabras();
 
         tabbedPane = new JTabbedPane();
         tabbedPane.add("Búsqueda", busqueda);
+        tabbedPane.add("Lista de palabras", listaDePalabras);
         this.add(tabbedPane);
         this.setVisible(true);
     }
@@ -33,5 +36,14 @@ public class GUI extends JFrame {
                 "No fue posible conectar con la base de datos.",
                 "Error ingresando a la base de datos",
                 JOptionPane.WARNING_MESSAGE);
+    }
+
+    public void cambiarPantalla(int indice) {
+        tabbedPane.setSelectedIndex(indice);
+    }
+
+    public void buscarPalabra(Palabra palabra) {
+        cambiarPantalla(0);
+        busqueda.mostrarDetalles(palabra);
     }
 }

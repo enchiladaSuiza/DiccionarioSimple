@@ -102,4 +102,25 @@ public abstract class Diccionario {
         }
         return lexico;
     }
+
+    public static ArrayList<String> conseguirTodasLasPalabras() {
+        ArrayList<String> palabras = new ArrayList<>();
+        try {
+            Statement declaracion = connection.createStatement();
+            String consulta = "SELECT palabra FROM palabras ORDER BY palabra";
+            ResultSet resultados = declaracion.executeQuery(consulta);
+
+            while (resultados.next()) {
+                String palabra = resultados.getString("palabra");
+                palabras.add(palabra);
+            }
+
+            resultados.close();
+            declaracion.close();
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return palabras;
+    }
 }

@@ -7,13 +7,13 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-public class ConnectionDB {
+public abstract class ConnectionDB {
 
-    static File datosUsuario = new File("datos.txt");
-    static String driver = "com.mysql.cj.jdbc.Driver";
-    static String url = "jdbc:mysql://localhost:3306/diccionario?serverTimezone=UTC";
-    static String usuario;
-    static String password;
+    private static File datosUsuario = new File("datos.txt");
+    private static String driver = "com.mysql.cj.jdbc.Driver";
+    private static String url = "jdbc:mysql://localhost:3306/diccionario?serverTimezone=UTC";
+    private static String usuario;
+    private static String password;
 
     public static Connection getConnection() {
         ingresarDatos();

@@ -11,9 +11,6 @@ public class Busqueda extends JPanel implements ActionListener {
     private JLabel labelLexico;
     private JTextArea labelDefiniciones;
     private JTextArea labelEjemplos;
-    private Font fuentePalabra = new Font("Arial", Font.BOLD, 14);
-    private Font fuenteDefinicion = new Font("Arial", Font.PLAIN, 14);
-    private Font fuenteEjemplo = new Font("Arial", Font.ITALIC, 14);
 
     Busqueda() {
         this.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
@@ -27,12 +24,14 @@ public class Busqueda extends JPanel implements ActionListener {
         labelPalabra.setHorizontalAlignment(JLabel.LEFT);
         labelPalabra.setVerticalAlignment(JLabel.CENTER);
         labelPalabra.setPreferredSize(new Dimension(500, 20));
+        Font fuentePalabra = new Font("Arial", Font.BOLD, 14);
         labelPalabra.setFont(fuentePalabra);
 
         labelLexico = new JLabel();
         labelLexico.setHorizontalAlignment(JLabel.LEFT);
         labelLexico.setVerticalAlignment(JLabel.CENTER);
         labelLexico.setPreferredSize(new Dimension(500, 20));
+        Font fuenteEjemplo = new Font("Arial", Font.ITALIC, 14);
         labelLexico.setFont(fuenteEjemplo);
 
         labelDefiniciones = new JTextArea();
@@ -41,6 +40,7 @@ public class Busqueda extends JPanel implements ActionListener {
         labelDefiniciones.setLineWrap(true);
         labelDefiniciones.setWrapStyleWord(true);
         labelDefiniciones.setPreferredSize(new Dimension(500, 100));
+        Font fuenteDefinicion = new Font("Arial", Font.PLAIN, 14);
         labelDefiniciones.setFont(fuenteDefinicion);
 
         labelEjemplos = new JTextArea();
@@ -74,7 +74,7 @@ public class Busqueda extends JPanel implements ActionListener {
         }
     }
 
-    private void mostrarDetalles(Palabra palabra) {
+    public void mostrarDetalles(Palabra palabra) {
         labelPalabra.setText(palabra.getPalabra());
         labelLexico.setText(palabra.getLexico());
 
