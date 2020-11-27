@@ -7,14 +7,19 @@ import java.awt.event.ActionListener;
 
 public class Busqueda extends JPanel implements ActionListener {
     private JTextField textField;
+    private JPanel header;
     private JLabel labelPalabra;
+    private JLabel labelSinonimos;
     private JLabel labelLexico;
+    private JLabel labelTraducciones;
     private JTextArea labelDefiniciones;
     private JTextArea labelEjemplos;
+    private Font negrita = new Font("Arial", Font.BOLD, 14);
+    private Font regular = new Font("Arial", Font.PLAIN, 14);
+    private Font cursiva = new Font("Arial", Font.ITALIC, 14);
 
     Busqueda() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        // this.setPreferredSize(new Dimension(550, 400));
         this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         textField = new JTextField();
@@ -24,29 +29,39 @@ public class Busqueda extends JPanel implements ActionListener {
         textField.setAlignmentX(JTextField.LEFT_ALIGNMENT);
 
         labelPalabra = new JLabel();
-        labelPalabra.setHorizontalTextPosition(JLabel.CENTER);
+        labelPalabra.setHorizontalTextPosition(JLabel.LEFT);
         labelPalabra.setVerticalTextPosition(JLabel.CENTER);
-        labelPalabra.setBackground(Color.cyan);
-        // labelPalabra.setPreferredSize(new Dimension(500, 18));
-        Font fuentePalabra = new Font("Arial", Font.BOLD, 14);
-        labelPalabra.setFont(fuentePalabra);
+        labelPalabra.setFont(negrita);
 
+        labelSinonimos = new JLabel();
+        labelSinonimos.setHorizontalTextPosition(JLabel.LEFT);
+        labelSinonimos.setVerticalTextPosition(JLabel.CENTER);
+        labelSinonimos.setFont(regular);
+
+        header = new JPanel();
+        header.setLayout(new BoxLayout(header, BoxLayout.X_AXIS));
+        header.add(labelPalabra);
+        header.add(Box.createHorizontalGlue());
+        header.add(labelSinonimos);
+        header.setAlignmentX(JPanel.LEFT_ALIGNMENT);
+        
         labelLexico = new JLabel();
-        labelLexico.setHorizontalTextPosition(JLabel.LEFT);
+        labelLexico.setHorizontalTextPosition(JLabel.CENTER);
         labelLexico.setVerticalTextPosition(JLabel.CENTER);
-        labelLexico.setBackground(Color.cyan);
-        // labelLexico.setPreferredSize(new Dimension(500, 18));
-        Font fuenteEjemplo = new Font("Arial", Font.ITALIC, 14);
-        labelLexico.setFont(fuenteEjemplo);
+        labelLexico.setHorizontalAlignment(JLabel.CENTER);
+        labelLexico.setFont(cursiva);
+
+        labelTraducciones = new JLabel();
+        labelTraducciones.setHorizontalTextPosition(JLabel.LEFT);
+        labelTraducciones.setVerticalTextPosition(JLabel.CENTER);
+        labelTraducciones.setFont(regular);
 
         labelDefiniciones = new JTextArea();
         labelDefiniciones.setEditable(false);
         labelDefiniciones.setBackground(null);
         labelDefiniciones.setLineWrap(true);
         labelDefiniciones.setWrapStyleWord(true);
-        // labelDefiniciones.setPreferredSize(new Dimension(500, 90));
-        Font fuenteDefinicion = new Font("Arial", Font.PLAIN, 14);
-        labelDefiniciones.setFont(fuenteDefinicion);
+        labelDefiniciones.setFont(regular);
         labelDefiniciones.setAlignmentX(JTextArea.LEFT_ALIGNMENT);
 
         labelEjemplos = new JTextArea();
@@ -54,20 +69,19 @@ public class Busqueda extends JPanel implements ActionListener {
         labelEjemplos.setBackground(null);
         labelEjemplos.setLineWrap(true);
         labelEjemplos.setWrapStyleWord(true);
-        // labelEjemplos.setPreferredSize(new Dimension(500, 90));
-        labelEjemplos.setFont(new Font("Arial", Font.ITALIC, 14));
-        labelEjemplos.setFont(fuenteEjemplo);
+        labelEjemplos.setFont(cursiva);
         labelEjemplos.setLayout(new BorderLayout());
         labelEjemplos.setAlignmentX(JTextArea.LEFT_ALIGNMENT);
 
         this.add(textField);
         this.add(Box.createRigidArea(new Dimension(0, 10)));
-        this.add(labelPalabra);
+        this.add(header);
         this.add(Box.createRigidArea(new Dimension(0, 15)));
         this.add(labelLexico);
         this.add(Box.createRigidArea(new Dimension(0, 15)));
         this.add(labelDefiniciones);
         this.add(labelEjemplos);
+        this.add(labelTraducciones);
     }
 
     @Override
@@ -87,7 +101,35 @@ public class Busqueda extends JPanel implements ActionListener {
 
     public void mostrarDetalles(Palabra palabra) {
         labelPalabra.setText(palabra.getPalabra());
+
+        if (palabra.tieneSinonimos()) {
+            StringBuilder sinonimosTexto = new StringBuilder();
+            sinonimosTexto.append("Sinónimo con ");
+            for (int i = 0; i < palabra.getSinonimos().length; i++) {
+                String sin = palabra.getSinonimos()[0];
+                sinonimosTexto.append(sin);
+                if (i < palabra.getSinonimos().length - 1) {
+                    sinonimosTexto.append(", ");
+                }
+            }
+            labelSinonimos.setText(sinonimosTexto.toString());
+            header.add(labelSinonimos);
+        }
+        else {
+            header.remove(labelSinonimos);
+        }
+
         labelLexico.setText(palabra.getLexico());
+        
+        StringBuilder traduccionesTexto = new StringBuilder();
+        for (int i = 0; i < palabra.getTraducciones().length; i++) {
+            String trad = palabra.getTraducciones()[i];
+            traduccionesTexto.append(trad);
+            if (i < palabra.getTraducciones().length - 1) {
+                traduccionesTexto.append(", ");
+            }
+        }
+        labelTraducciones.setText(traduccionesTexto.toString());
 
         StringBuilder definicionesTexto = new StringBuilder();
         for (int i = 0; i < palabra.getDefiniciones().length; i++) {
@@ -115,8 +157,12 @@ public class Busqueda extends JPanel implements ActionListener {
     private void mostrarError(String texto) {
         String mensaje = "La palabra " + texto + " no se encuentra en la base de datos. Lo sentimos.";
         labelPalabra.setText(mensaje);
+        labelSinonimos.setText("");
         labelLexico.setText("");
+        labelTraducciones.setText("");
         labelDefiniciones.setText("");
         labelEjemplos.setText("");
+        revalidate();
+        repaint();
     }
 }

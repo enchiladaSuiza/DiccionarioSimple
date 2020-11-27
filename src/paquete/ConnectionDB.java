@@ -9,9 +9,9 @@ import java.sql.DriverManager;
 
 public abstract class ConnectionDB {
 
-    private static File datosUsuario = new File("datos.txt");
-    private static String driver = "com.mysql.cj.jdbc.Driver";
-    private static String url = "jdbc:mysql://localhost:3306/diccionario?serverTimezone=UTC";
+    private static final File datosUsuario = new File("datos.txt");
+    private static final String driver = "com.mysql.cj.jdbc.Driver";
+    private static final String url = "jdbc:mysql://localhost:3306/diccionario?serverTimezone=UTC";
     private static String usuario;
     private static String password;
 

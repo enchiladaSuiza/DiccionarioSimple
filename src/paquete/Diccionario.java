@@ -103,6 +103,61 @@ public abstract class Diccionario {
         return lexico;
     }
 
+    public static ArrayList<String> conseguirSinonimos(String palabra) {
+        ArrayList<String> sinonimos = new ArrayList<>();
+        try {
+            Statement declaracion = connection.createStatement();
+            String consulta = "SELECT p2.palabra AS sinonimo\n" +
+                    "FROM sinonimos s\n" +
+                    "JOIN palabras p1 ON s.idpalabra1 = p1.idpalabra\n" +
+                    "JOIN palabras p2 ON s.idpalabra2 = p2.idpalabra\n" +
+                    "WHERE p1.palabra = '" + palabra + "'";
+            ResultSet resultados = declaracion.executeQuery(consulta);
+
+            while (resultados.next()) {
+                String sinonimo = resultados.getString("sinonimo");
+                sinonimos.add(sinonimo);
+            }
+            resultados.close();
+            declaracion.close();
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return sinonimos;
+    }
+
+    public static ArrayList<String> conseguirTraducciones(String palabra) {
+        ArrayList<String> traducciones = new ArrayList<>();
+        try {
+            Statement declaracion = connection.createStatement();
+            String consulta = "SELECT t.traduccion\n" +
+                    "FROM palabra_traducciones pt\n" +
+                    "JOIN palabras p ON p.idpalabra = pt.idpalabra\n" +
+                    "JOIN traducciones t ON t.idtraduccion = pt.idtraduccion\n" +
+                    "WHERE p.palabra = '" + palabra + "'";
+            ResultSet resultados = declaracion.executeQuery(consulta);
+
+            if (!resultados.next()) {
+                return null;
+            }
+
+            String primeraTraduccion = resultados.getString("traduccion");
+            traducciones.add(primeraTraduccion);
+
+            while (resultados.next()) {
+                String traduccion = resultados.getString("traduccion");
+                traducciones.add(traduccion);
+            }
+            resultados.close();
+            declaracion.close();
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return traducciones;
+    }
+
     public static ArrayList<String> conseguirTodasLasPalabras() {
         ArrayList<String> palabras = new ArrayList<>();
         try {
