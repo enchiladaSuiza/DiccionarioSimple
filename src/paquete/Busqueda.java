@@ -122,7 +122,7 @@ public class Busqueda extends JPanel implements ActionListener {
 
         if (palabra.tieneSinonimos()) {
             StringBuilder sinonimosTexto = new StringBuilder();
-            sinonimosTexto.append("Sinónimo con ");
+            sinonimosTexto.append("Sinónimo de ");
             for (int i = 0; i < palabra.getSinonimos().length; i++) {
                 String sin = palabra.getSinonimos()[0];
                 sinonimosTexto.append(sin);

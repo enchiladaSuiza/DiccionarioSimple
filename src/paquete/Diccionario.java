@@ -296,6 +296,43 @@ public abstract class Diccionario {
             String eliminacion = "DELETE FROM lista_palabras\n" +
                     "WHERE idlista = " + idlista + " AND idpalabra = " + idpalabra;
             declaracionEliminacion.execute(eliminacion);
+            declaracionEliminacion.close();
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void nuevaLista(String nombre) {
+        try {
+            Statement declaracion = connection.createStatement();
+            String insercion = "INSERT INTO listas (lista)\n" +
+                    "VALUES ('" + nombre + "')";
+            declaracion.execute(insercion);
+            declaracion.close();
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void eliminarLista(String nombre) {
+        int idlista = conseguirIDlista(nombre);
+        if (idlista == 0) {
+            return;
+        }
+        try {
+            Statement declaracionPalabras = connection.createStatement();
+            String eliminacionPalabras = "DELETE FROM lista_palabras\n" +
+                    "WHERE idlista = " + idlista;
+            declaracionPalabras.execute(eliminacionPalabras);
+            declaracionPalabras.close();
+
+            Statement declaracionLista = connection.createStatement();
+            String eliminacionLista = "DELETE FROM listas\n" +
+                    "WHERE idlista = " + idlista;
+            declaracionLista.execute(eliminacionLista);
+            declaracionLista.close();
         }
         catch (SQLException e) {
             System.out.println(e.getMessage());
