@@ -53,6 +53,9 @@ public class GUI extends JFrame {
 
     public ArrayList<String> obtenerListas() {
         HashMap<String, ArrayList<Palabra>> hashMap = listasPersonales.getListas();
+        if (hashMap == null) {
+            return null;
+        }
         return new ArrayList<>(hashMap.keySet());
     }
 

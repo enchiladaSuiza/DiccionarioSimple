@@ -1,3 +1,9 @@
+/**
+ * Proyecto final para Programación Oriendata a Objetos
+ * Diccionario simple
+ * Tercer Semestre Grupo 4
+ * @author Santiago Alonso Vergara Lorenzo
+ */
 package paquete;
 
 import java.sql.Connection;

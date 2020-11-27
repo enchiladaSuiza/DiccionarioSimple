@@ -112,7 +112,12 @@ public class Busqueda extends JPanel implements ActionListener {
             }
         }
         else if (e.getSource() == agregarLista) {
-            new ElegirListas(Main.getGUI().obtenerListas(), palabraActual);
+            if (Main.getGUI().obtenerListas() != null) {
+                new ElegirListas(Main.getGUI().obtenerListas(), palabraActual);
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "No hay listas a las que agregar");
+            }
         }
     }
 
