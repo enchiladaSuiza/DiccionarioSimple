@@ -15,7 +15,8 @@ public class Busqueda extends JPanel implements ActionListener {
     private JLabel labelTraducciones;
     private JTextArea labelDefiniciones;
     private JTextArea labelEjemplos;
-    private JComboBox<String> agregarLista;
+    private JButton agregarLista;
+    private Palabra palabraActual;
     private Font negrita = new Font("Arial", Font.BOLD, 14);
     private Font regular = new Font("Arial", Font.PLAIN, 14);
     private Font cursiva = new Font("Arial", Font.ITALIC, 14);
@@ -75,11 +76,7 @@ public class Busqueda extends JPanel implements ActionListener {
         labelTraducciones.setVerticalTextPosition(JLabel.CENTER);
         labelTraducciones.setFont(regular);
 
-        String[] opciones = {"Añadir a una lista"};
-        agregarLista = new JComboBox<>(opciones);
-        agregarLista.setPreferredSize(new Dimension(150, 26));
-        agregarLista.setMaximumSize(new Dimension(150, 26));
-        agregarLista.setSelectedIndex(0);
+        agregarLista = new JButton("Añadir a una lista...");
         agregarLista.addActionListener(this);
 
         footer = new JPanel();
@@ -106,17 +103,21 @@ public class Busqueda extends JPanel implements ActionListener {
         if (e.getSource() == textField) {
             String texto = textField.getText();
             texto = texto.toLowerCase();
-            Palabra palabra = new Palabra(texto);
-            if (palabra.estaEnLaBase()) {
-                mostrarDetalles(palabra);
+            palabraActual = new Palabra(texto);
+            if (palabraActual.estaEnLaBase()) {
+                mostrarDetalles(palabraActual);
             }
             else {
                 mostrarError(texto);
             }
         }
+        else if (e.getSource() == agregarLista) {
+            new ElegirListas(Main.getGUI().obtenerListas(), palabraActual);
+        }
     }
 
     public void mostrarDetalles(Palabra palabra) {
+        palabraActual = palabra;
         labelPalabra.setText(palabra.getPalabra());
 
         if (palabra.tieneSinonimos()) {

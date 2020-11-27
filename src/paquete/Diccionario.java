@@ -227,4 +227,78 @@ public abstract class Diccionario {
         }
         return hashMap;
     }
+
+    public static int conseguirIDlista(String lista) {
+        int idlista = 0;
+        try {
+            Statement declaracionLista = connection.createStatement();
+            String consultaLista = "SELECT idlista FROM listas\n" +
+                    "WHERE lista = '" + lista + "'";
+            ResultSet resultadoLista = declaracionLista.executeQuery(consultaLista);
+
+            if (!resultadoLista.next()) {
+                System.out.println("Checar nombre de la lista!");
+                return idlista;
+            }
+            idlista = resultadoLista.getInt("idlista");
+            resultadoLista.close();
+            declaracionLista.close();
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return idlista;
+    }
+
+    public static int conseguirIDpalabra(String palabra) {
+        int idpalabra = 0;
+        try {
+            Statement declaracionPalabra = connection.createStatement();
+            String consultaPalabra = "SELECT idpalabra FROM palabras\n" +
+                    "WHERE palabra = '" + palabra + "'";
+            ResultSet resultadoPalabra = declaracionPalabra.executeQuery(consultaPalabra);
+
+            if (!resultadoPalabra.next()) {
+                System.out.println("Checar palabra!");
+                return idpalabra;
+            }
+
+            idpalabra = resultadoPalabra.getInt("idpalabra");
+            resultadoPalabra.close();
+            declaracionPalabra.close();
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return idpalabra;
+    }
+
+    public static void agregarALaLista(String lista, String palabra) {
+        int idlista = conseguirIDlista(lista);
+        int idpalabra = conseguirIDpalabra(palabra);
+        try {
+            Statement declaracionInsercion = connection.createStatement();
+            String insercion = "INSERT INTO lista_palabras\n" +
+                    "VALUES (" + idlista + ", " + idpalabra +")";
+            declaracionInsercion.execute(insercion);
+            declaracionInsercion.close();
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void quitarDeLaLista(String lista, String palabra) {
+        int idlista = conseguirIDlista(lista);
+        int idpalabra = conseguirIDpalabra(palabra);
+        try {
+            Statement declaracionEliminacion = connection.createStatement();
+            String eliminacion = "DELETE FROM lista_palabras\n" +
+                    "WHERE idlista = " + idlista + " AND idpalabra = " + idpalabra;
+            declaracionEliminacion.execute(eliminacion);
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }

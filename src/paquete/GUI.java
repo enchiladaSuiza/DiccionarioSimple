@@ -1,6 +1,8 @@
 package paquete;
 
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GUI extends JFrame {
 
@@ -14,7 +16,6 @@ public class GUI extends JFrame {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setSize(600, 400);
         this.setLocationRelativeTo(null);
-        //this.setResizable(false);
 
         busqueda = new Busqueda();
         listaDePalabras = new ListaDePalabras();
@@ -48,5 +49,22 @@ public class GUI extends JFrame {
     public void buscarPalabra(Palabra palabra) {
         cambiarPantalla(0);
         busqueda.mostrarDetalles(palabra);
+    }
+
+    public ArrayList<String> obtenerListas() {
+        HashMap<String, ArrayList<Palabra>> hashMap = listasPersonales.getListas();
+        return new ArrayList<>(hashMap.keySet());
+    }
+
+    public boolean palabraEnLista(String lista, String palabra) {
+        return listasPersonales.palabraEstaEnLista(lista, palabra);
+    }
+
+    public void agregarALaLista(String lista, String palabra) {
+        listasPersonales.agregarALaLista(lista, palabra);
+    }
+
+    public void quitarDeLaLista(String lista, String palabra) {
+        listasPersonales.quitarDeLaLista(lista, palabra);
     }
 }
