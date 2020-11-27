@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class Diccionario {
 
@@ -177,5 +178,53 @@ public abstract class Diccionario {
             System.out.println(e.getMessage());
         }
         return palabras;
+    }
+
+    public static HashMap<String, ArrayList<Palabra>> conseguirListas() {
+        HashMap<String, ArrayList<Palabra>> hashMap = new HashMap<>();
+        ArrayList<String> listas = new ArrayList<>();
+        try {
+            Statement declaracion = connection.createStatement();
+            String consulta = "SELECT lista FROM listas";
+            ResultSet resultados = declaracion.executeQuery(consulta);
+
+            if (!resultados.next()) {
+                return null;
+            }
+
+            String primeraLista = resultados.getString("lista");
+            listas.add(primeraLista);
+
+            while (resultados.next()) {
+                String lista = resultados.getString("lista");
+                listas.add(lista);
+            }
+            resultados.close();
+            declaracion.close();
+
+            for (String lista : listas) {
+                ArrayList<Palabra> palabras = new ArrayList<>();
+                Statement declaracionPalabras = connection.createStatement();
+                String consultaPalabras = "SELECT p.palabra\n" +
+                        "FROM lista_palabras lp\n" +
+                        "JOIN palabras p ON p.idpalabra = lp.idpalabra\n" +
+                        "JOIN listas l ON l.idlista = lp.idlista\n" +
+                        "WHERE l.lista = '" + lista + "'";
+                ResultSet resultadosPalabras = declaracionPalabras.executeQuery(consultaPalabras);
+
+                while (resultadosPalabras.next()) {
+                    String texto = resultadosPalabras.getString("palabra");
+                    Palabra palabra = new Palabra(texto);
+                    palabras.add(palabra);
+                }
+                resultadosPalabras.close();
+                declaracionPalabras.close();
+                hashMap.put(lista, palabras);
+            }
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return hashMap;
     }
 }

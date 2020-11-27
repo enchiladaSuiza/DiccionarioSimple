@@ -6,6 +6,7 @@ public class GUI extends JFrame {
 
     private Busqueda busqueda;
     private ListaDePalabras listaDePalabras;
+    private ListasPersonales listasPersonales;
     private JTabbedPane tabbedPane;
 
     GUI() {
@@ -17,10 +18,12 @@ public class GUI extends JFrame {
 
         busqueda = new Busqueda();
         listaDePalabras = new ListaDePalabras();
+        listasPersonales = new ListasPersonales();
 
         tabbedPane = new JTabbedPane();
         tabbedPane.add("Búsqueda", busqueda);
-        tabbedPane.add("Lista de palabras", listaDePalabras);
+        tabbedPane.add("Todas las palabras", listaDePalabras);
+        tabbedPane.add("Listas personales", listasPersonales);
         this.add(tabbedPane);
         this.setVisible(true);
     }

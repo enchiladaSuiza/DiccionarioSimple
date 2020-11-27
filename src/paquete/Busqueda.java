@@ -8,12 +8,14 @@ import java.awt.event.ActionListener;
 public class Busqueda extends JPanel implements ActionListener {
     private JTextField textField;
     private JPanel header;
+    private JPanel footer;
     private JLabel labelPalabra;
     private JLabel labelSinonimos;
     private JLabel labelLexico;
     private JLabel labelTraducciones;
     private JTextArea labelDefiniciones;
     private JTextArea labelEjemplos;
+    private JComboBox<String> agregarLista;
     private Font negrita = new Font("Arial", Font.BOLD, 14);
     private Font regular = new Font("Arial", Font.PLAIN, 14);
     private Font cursiva = new Font("Arial", Font.ITALIC, 14);
@@ -40,21 +42,16 @@ public class Busqueda extends JPanel implements ActionListener {
 
         header = new JPanel();
         header.setLayout(new BoxLayout(header, BoxLayout.X_AXIS));
+        header.setAlignmentX(JPanel.LEFT_ALIGNMENT);
         header.add(labelPalabra);
         header.add(Box.createHorizontalGlue());
         header.add(labelSinonimos);
-        header.setAlignmentX(JPanel.LEFT_ALIGNMENT);
         
         labelLexico = new JLabel();
         labelLexico.setHorizontalTextPosition(JLabel.CENTER);
         labelLexico.setVerticalTextPosition(JLabel.CENTER);
         labelLexico.setHorizontalAlignment(JLabel.CENTER);
         labelLexico.setFont(cursiva);
-
-        labelTraducciones = new JLabel();
-        labelTraducciones.setHorizontalTextPosition(JLabel.LEFT);
-        labelTraducciones.setVerticalTextPosition(JLabel.CENTER);
-        labelTraducciones.setFont(regular);
 
         labelDefiniciones = new JTextArea();
         labelDefiniciones.setEditable(false);
@@ -73,6 +70,26 @@ public class Busqueda extends JPanel implements ActionListener {
         labelEjemplos.setLayout(new BorderLayout());
         labelEjemplos.setAlignmentX(JTextArea.LEFT_ALIGNMENT);
 
+        labelTraducciones = new JLabel();
+        labelTraducciones.setHorizontalTextPosition(JLabel.LEFT);
+        labelTraducciones.setVerticalTextPosition(JLabel.CENTER);
+        labelTraducciones.setFont(regular);
+
+        String[] opciones = {"Añadir a una lista"};
+        agregarLista = new JComboBox<>(opciones);
+        agregarLista.setPreferredSize(new Dimension(150, 26));
+        agregarLista.setMaximumSize(new Dimension(150, 26));
+        agregarLista.setSelectedIndex(0);
+        agregarLista.addActionListener(this);
+
+        footer = new JPanel();
+        footer.setLayout(new BoxLayout(footer, BoxLayout.X_AXIS));
+        footer.setAlignmentX(JPanel.LEFT_ALIGNMENT);
+        footer.add(labelTraducciones);
+        footer.add(Box.createHorizontalGlue());
+        footer.add(agregarLista);
+        footer.setVisible(false);
+
         this.add(textField);
         this.add(Box.createRigidArea(new Dimension(0, 10)));
         this.add(header);
@@ -81,7 +98,7 @@ public class Busqueda extends JPanel implements ActionListener {
         this.add(Box.createRigidArea(new Dimension(0, 15)));
         this.add(labelDefiniciones);
         this.add(labelEjemplos);
-        this.add(labelTraducciones);
+        this.add(footer);
     }
 
     @Override
@@ -149,6 +166,7 @@ public class Busqueda extends JPanel implements ActionListener {
                 ejemploTexto.append("\n\n");
             }
         }
+        footer.setVisible(true);
         labelEjemplos.setText(ejemploTexto.toString());
         revalidate();
         repaint();
@@ -162,6 +180,7 @@ public class Busqueda extends JPanel implements ActionListener {
         labelTraducciones.setText("");
         labelDefiniciones.setText("");
         labelEjemplos.setText("");
+        footer.setVisible(false);
         revalidate();
         repaint();
     }
